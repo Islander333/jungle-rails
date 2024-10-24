@@ -4,8 +4,33 @@
     <h1>Order #<%= @order.id %></h1>
   </header>
 
+
+  <table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Image</th>
+      <th>Product</th>
+      <th>Unit Price</th>
+      <th>Quantity</th>
+      <th>Item Total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @order.line_items.each do |line_item| %>
+      <%= render 'line_item', line_item: line_item %> <!-- Render the line item partial -->
+    <% end %>
+  </tbody>
+  <tfoot>
+    <tr>
+      <th colspan="4">Total Amount:</th>
+      <th><%= humanized_money_with_symbol @order.total_cents / 100.0 %></th>
+    </tr>
+  </tfoot>
+</table>
+
   <div class="order-summary jumbotron">
     <h4>Thank you for your order!</h4>
+    <p>Email confirmation sent to: <strong><%= @order.email %></strong></p>
   </div>
 
   <%= link_to "Continue Shopping", root_path, class: 'btn btn-lg btn-primary' %>
